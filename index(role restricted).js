@@ -3,6 +3,8 @@ const axios = require('axios'); // You need to install axios for API calls
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] });
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
+const userId = ['USER_ID_1', 'USER_ID_2']; // Add the User IDs here
+const roleId = ['ROLE_ID_1', 'ROLE_ID_2']; // Add the Role IDs here
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
