@@ -382,51 +382,54 @@ client.on('interactionCreate', async (interaction) => {
         }
     // Check if the user has the specified role or is the specified user
 if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
-    if (commandName === 'say') {
-        const message = options.getString('message');
-        if (message) await interaction.reply(message);
-        else await interaction.reply('Please provide a message.');
-    } else if (commandName === 'sayembed') {
-        const embedColor = options.getString('color');
-        const title = options.getString('title');
-        const description = options.getString('description');
-        const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
-        await interaction.reply({ embeds: [embed] });
-    } else if (commandName === 'saychannel') {
-        const channel = options.getChannel('channel');
-        const message = options.getString('message') || '';
-        if (channel) await channel.send(message);
-        else await interaction.reply('Please provide a valid channel.');
-    } else if (commandName === 'sayembedchannel') {
-        const channel = options.getChannel('channel');
-        const embedColor = options.getString('color');
-        const title = options.getString('title');
-        const description = options.getString('description');
-        const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
-        if (channel) await channel.send({ embeds: [embed] });
-        else await interaction.reply('Please provide a valid channel.');
-    } else if (commandName === 'dmembed') {
-        const user = await client.users.fetch(options.getUser('user').id);
-        const embedColor = options.getString('color');
-        const title = options.getString('title');
-        const description = options.getString('description');
-        const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
-        await user.send({ embeds: [embed] });
-        await interaction.reply('Embed sent successfully.');
-    } else if (commandName === 'dm') {
-        const user = await client.users.fetch(options.getUser('user').id);
-        const message = options.getString('message');
-        await user.send(message);
-        await interaction.reply('Message sent successfully.');
+    // Commands requiring role/user check
+    else if (interaction.member.roles.cache.has(roleId) || interaction.user.id === userId) {
+        if (commandName === 'say') {
+            const message = options.getString('message');
+            if (message) await interaction.reply(message);
+            else await interaction.reply('Please provide a message.');
+        } else if (commandName === 'sayembed') {
+            const embedColor = options.getString('color');
+            const title = options.getString('title');
+            const description = options.getString('description');
+            const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
+            await interaction.reply({ embeds: [embed] });
+        } else if (commandName === 'saychannel') {
+            const channel = options.getChannel('channel');
+            const message = options.getString('message') || '';
+            if (channel) await channel.send(message);
+            else await interaction.reply('Please provide a valid channel.');
+        } else if (commandName === 'sayembedchannel') {
+            const channel = options.getChannel('channel');
+            const embedColor = options.getString('color');
+            const title = options.getString('title');
+            const description = options.getString('description');
+            const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
+            if (channel) await channel.send({ embeds: [embed] });
+            else await interaction.reply('Please provide a valid channel.');
+        } else if (commandName === 'dmembed') {
+            const user = await client.users.fetch(options.getUser('user').id);
+            const embedColor = options.getString('color');
+            const title = options.getString('title');
+            const description = options.getString('description');
+            const embed = new EmbedBuilder().setColor(embedColor).setTitle(title).setDescription(description);
+            await user.send({ embeds: [embed] });
+            await interaction.reply('Embed sent successfully.');
+        } else if (commandName === 'dm') {
+            const user = await client.users.fetch(options.getUser('user').id);
+            const message = options.getString('message');
+            await user.send(message);
+            await interaction.reply('Message sent successfully.');
+        }
+    } else {
+        // Send an embedded message if the user is not allowed
+        const embed = {
+            color: 0xFF0000, // Red color
+            description: "Bhai ye tere liye Nahi hai",
+        };
+        await interaction.reply({ embeds: [embed], ephemeral: true });
     }
-} else {
-    // Send an embedded message if the user is not allowed
-    const embed = {
-        color: 0xFF0000, // Red color
-        description: "Bhai ye tere liye Nahi hai",
-    };
-    await interaction.reply({ embeds: [embed], ephemeral: true });
-}
+});
     } else if (commandName === 'randomcat') {
         await interaction.reply(`https://cataas.com/cat?random=${Math.random()}`);
     } else if (commandName === 'coinflip') {
