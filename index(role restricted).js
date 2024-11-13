@@ -3,9 +3,6 @@ const axios = require('axios'); // You need to install axios for API calls
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] });
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
-const roleId = '[roleid]'; // Replace with the role ID
-const userId = '[userid]'; // Replace with the user ID
-
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
@@ -337,12 +334,11 @@ if (content.startsWith(`${PREFIX}dm `) && !content.startsWith(`${PREFIX}dmembed`
     }
 });
 
-// Check if the user has the required role or User ID
-    const hasPermission = allowedUserIDs.includes(userID) || member.roles.cache.some(role => allowedRoleIDs.includes(role.id));
+// Define commands
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
 
-    if (!hasPermission) {
-        return interaction.reply({ content: 'You do not have permission to use this command.', ephemeral: true });
-    }
+    const { commandName, options } = interaction;
 
     if (commandName === 'hello') {
         await interaction.reply(`Hello ${interaction.user}! How can I assist you today?`);
