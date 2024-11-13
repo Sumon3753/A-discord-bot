@@ -7,6 +7,8 @@ and replace,
 client.login('TOKEN') into your actual bot token,
 Example - client.login('SNJWBAMWWJSKQHQ.SUSHWJJSNZJWJ.SUAHWJJWNNS')
 
+
+some commands are role and user restricted, use index.js if you have low RAM and if don't need role and user restricted commands
 commands,
 **Commands:**
         !ping - Ping the bot.
