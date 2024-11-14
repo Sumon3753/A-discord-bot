@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start": "node slash commands.js"
     "server": "node keep_alive.js"
   },
   "dependencies": {
