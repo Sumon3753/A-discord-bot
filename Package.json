@@ -1,11 +1,11 @@
 {
-  "name": "discord-bot",
+  "name": "A-discord-bot",
   "version": "1.0.0",
   "description": "A Discord bot with various commands and a simple HTTP server",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "server": "node server.js"
+    "server": "node keep_alive.js"
   },
   "dependencies": {
     "discord.js": "^14.3.0",
