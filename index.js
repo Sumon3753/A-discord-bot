@@ -409,4 +409,4 @@ setInterval(() => {
     console.log("This message is printed every 5 seconds.");
 }, 5000);
 
-client.login(TOKEN); // Log in to Discord with your bot token
+client.login(process.env.TOKEN); // Log in to Discord with your bot token
