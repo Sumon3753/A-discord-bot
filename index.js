@@ -4,6 +4,13 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
 
+const http = require('http');
+
+http.createServer(function (req, res) {
+  res.write("I'm alive");
+  res.end();
+}).listen(8080);
+
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
 });
