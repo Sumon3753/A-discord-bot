@@ -6,6 +6,14 @@ const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
 const allowedUserIDs = ['USER_ID_1', 'USER_ID_2']; // Add the User IDs here
 const allowedRoleIDs = ['1289545114712018966', 'ROLE_ID_2']; // Add the Role IDs here
 
+var http = require('http'); // Fix: Added '=' and corrected 'require' syntax
+
+http.createServer(function (req, res) { // Removed unnecessary space
+    res.write("I'm alive"); // Indented for better readability
+    res.end();
+}).listen(8080); // Ensure the port is set correctly
+
+
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
 });
