@@ -3,16 +3,13 @@ const axios = require('axios'); // You need to install axios for API calls
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] });
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
-const allowedUserIDs = ['1273604997275455559', '1252336627179716659']; // Add the User IDs here
-const allowedRoleIDs = ['1289545114712018966', '1289545114712018966']; // Add the Role IDs here
 
-var http = require('http'); // Fix: Added '=' and corrected 'require' syntax
+const http = require('http');
 
-http.createServer(function (req, res) { // Removed unnecessary space
-    res.write("I'm alive"); // Indented for better readability
-    res.end();
-}).listen(8080); // Ensure the port is set correctly
-
+http.createServer(function (req, res) {
+  res.write("I'm alive");
+  res.end();
+}).listen(8080);
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
@@ -105,36 +102,22 @@ client.on('messageCreate', async (message) => {
     }
 
     // Command: say [message]
-if (content === `${PREFIX}say` || content.startsWith(`${PREFIX}say `)) {
-    // Ensure the command is exactly "say" and not "sayembedchannel" or "sayembed"
-    if (!content.startsWith(`${PREFIX}sayembedchannel`) && !content.startsWith(`${PREFIX}sayembed`)) {
-        
-        // Check if the user has the specified role or is the specified user
-        if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
+    if (content === `${PREFIX}say` || content.startsWith(`${PREFIX}say `)) {
+        // Ensure the command is exactly "say" and not "sayembedchannel" or "sayembed"
+        if (!content.startsWith(`${PREFIX}sayembedchannel`) && !content.startsWith(`${PREFIX}sayembed`)) {
             const response = message.content.split(' ').slice(1).join(' ');
             if (response) {
                 message.channel.send(response);
             } else {
                 message.channel.send('Please provide a message.');
             }
-        } else {
-            // Send an embedded message if the user is not allowed
-            const embed = {
-                color: 0xFF0000, // Red color
-                description: "Bhai ye tere liye nahi hai",
-            };
-            message.channel.send({ embeds: [embed] });
         }
     }
-}
 
     // Command: sayembed [embed colour] [title] [description]
-if (content.startsWith(`${PREFIX}sayembed`)) {
-    // Ensure it's exactly "sayembed" and not "sayembedchannel"
-    if (!content.startsWith(`${PREFIX}sayembedchannel`)) {
-
-        // Check if the user has the specified role or is the specified user
-        if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
+    if (content.startsWith(`${PREFIX}sayembed`)) {
+        // Ensure it's exactly "sayembed" and not "sayembedchannel"
+        if (!content.startsWith(`${PREFIX}sayembedchannel`)) {
             const args = message.content.split(' ').slice(1);
             const embedColor = args[0];
             const title = args[1];
@@ -146,48 +129,28 @@ if (content.startsWith(`${PREFIX}sayembed`)) {
                 .setDescription(description);
 
             message.channel.send({ embeds: [embed] });
-        } else {
-            // Send an embedded message if the user is not allowed
-            const embed = {
-                color: 0xFF0000, // Red color
-                description: "This is not for you",
-            };
-            message.channel.send({ embeds: [embed] });
         }
     }
-}
 
     // Command: saychannel [channel id] [message]
 if (content.startsWith(`${PREFIX}saychannel`)) {
-    // Check if the user has the specified role or is the specified user
-    if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
-        const args = message.content.split(' ').slice(1);
-        const channelId = args[0];
-        const text = args.slice(1).join(' ') || null;
+    const args = message.content.split(' ').slice(1);
+    const channelId = args[0];
+    const text = args.slice(1).join(' ') || null;
 
-        const channel = client.channels.cache.get(channelId);
-        if (channel && text) {
-            channel.send({ content: text });
-        } else {
-            message.channel.send('Please provide a valid channel ID and message.');
-        }
+    const channel = client.channels.cache.get(channelId);
+    if (channel) {
+        channel.send({ content: text });
     } else {
-        // Send an embedded message if the user is not allowed
-        const embed = {
-            color: 0xFF0000, // Red color
-            description: "Bhai ye tere liye Nahi hai",
-        };
-        message.channel.send({ embeds: [embed] });
+        message.channel.send('Please provide a valid channel ID and message.');
     }
 }
 
-    // Command: sayembedchannel [embed colour] [channel id] [title] [description]
-if (content.startsWith(`${PREFIX}sayembedchannel`)) {
-    // Check if the user has the specified role or is the specified user
-    if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
+    // Command: sayembedchannel [channel id] [embed colour] [title] [description]
+    if (content.startsWith(`${PREFIX}sayembedchannel`)) {
         const args = message.content.split(' ').slice(1);
-        const embedColor = args[0];
         const channelId = args[1];
+        const embedColor = args[0];
         const title = args[2];
         const description = args.slice(3).join(' ');
 
@@ -202,20 +165,10 @@ if (content.startsWith(`${PREFIX}sayembedchannel`)) {
         } else {
             message.channel.send('Please provide a valid channel ID.');
         }
-    } else {
-        // Send an embedded message if the user is not allowed
-        const embed = {
-            color: 0xFF0000, // Red color
-            description: "Bhai ye tere liye Nahi hai",
-        };
-        message.channel.send({ embeds: [embed] });
     }
-}
 
-    // Command: dmembed [userId] [embed colour] [title] [description]
-if (content.startsWith(`${PREFIX}dmembed`)) {
-    // Check if the user has the specified role or is the specified user
-    if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
+    // Command: dmembed [userid] [embed colour] [title] [description]
+    if (content.startsWith(`${PREFIX}dmembed`)) {
         const args = message.content.split(' ').slice(1);
         const userId = args[0];
         const embedColor = args[1];
@@ -232,20 +185,10 @@ if (content.startsWith(`${PREFIX}dmembed`)) {
                 user.send({ embeds: [embed] });
             })
             .catch(console.error);
-    } else {
-        // Send an embedded message if the user is not allowed
-        const embed = {
-            color: 0xFF0000, // Red color
-            description: "Bhai ye tere liye Nahi hai",
-        };
-        message.channel.send({ embeds: [embed] });
     }
-}
 
-// Command: dm [userId or mention] [text]
-if (content.startsWith(`${PREFIX}dm `) && !content.startsWith(`${PREFIX}dmembed`)) {
-    // Check if the user has the specified role or is the specified user
-    if (message.member.roles.cache.has(roleId) || message.author.id === userId) {
+    // Command: dm [userid or mention] [text]
+    if (content.startsWith(`${PREFIX}dm `) && !content.startsWith(`${PREFIX}dmembed`)) {
         const args = message.content.split(' ').slice(1);
         const userId = args[0].replace(/[<@!>]/g, ''); // Clean up user mention
         const text = args.slice(1).join(' ');
@@ -255,15 +198,7 @@ if (content.startsWith(`${PREFIX}dm `) && !content.startsWith(`${PREFIX}dmembed`
                 user.send(text);
             })
             .catch(console.error);
-    } else {
-        // Send an embedded message if the user is not allowed
-        const embed = {
-            color: 0xFF0000, // Red color
-            description: "Bhai ye tere liye Nahi hai",
-        };
-        message.channel.send({ embeds: [embed] });
     }
-}
 
     // Command: randomcat (fetches a random cat image)
     if (content.startsWith(`${PREFIX}randomcat`)) {
