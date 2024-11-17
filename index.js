@@ -3,22 +3,8 @@ const axios = require('axios'); // You need to install axios for API calls
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] });
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
-// Define allowed roles or users
-const allowedRoles = ["Admin", "Moderator"]; // Replace with role names
-const allowedUsers = ["1273604997275455559", "1273604997275455559"]; // Replace with user IDs
 
 const http = require('http');
-
-// Helper function to check permissions
-const hasPermission = (message) => {
-    // Check if the user has a required role
-    const hasRole = message.member.roles.cache.some(role => allowedRoles.includes(role.name));
-
-    // Check if the user is explicitly allowed
-    const isAllowedUser = allowedUsers.includes(message.author.id);
-
-    return hasRole || isAllowedUser;
-};
 
 http.createServer(function (req, res) {
   res.write("I'm alive");
@@ -55,13 +41,7 @@ client.on('ready', () => {
     });
 });
 
-// Restricted commands
-    const restrictedCommands = ["!say", "!sayembed", "!saychannel", "!sayembedchannel", "!dm", "!dmembed"];
-    if (restrictedCommands.includes(command)) {
-        if (!hasPermission(message)) {
-            return message.channel.send("You do not have permission to use this command.");
-        }
-                                }
+
 
 client.on('messageCreate', async (message) => {
     const content = message.content.trim().toLowerCase().replace(/\s+/g, ' '); // Normalizing input
