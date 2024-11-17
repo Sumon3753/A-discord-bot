@@ -4,7 +4,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
 const allowedUserIDs = ['USER_ID_1', 'USER_ID_2']; // Add the User IDs here
-const allowedRoleIDs = ['ROLE_ID_1', 'ROLE_ID_2']; // Add the Role IDs here
+const allowedRoleIDs = ['1289545114712018966', 'ROLE_ID_2']; // Add the Role IDs here
 
 process.on('unhandledRejection', (reason, promise) => {
     console.error('Unhandled Rejection:', reason);
