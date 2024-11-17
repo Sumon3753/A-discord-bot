@@ -3,8 +3,8 @@ const axios = require('axios'); // You need to install axios for API calls
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages] });
 const TOKEN = 'bot token'; // Replace with your actual bot token
 const PREFIX= '!'; // Set your desired prefix here (empty for no prefix)
-const allowedUserIDs = ['USER_ID_1', 'USER_ID_2']; // Add the User IDs here
-const allowedRoleIDs = ['1289545114712018966', 'ROLE_ID_2']; // Add the Role IDs here
+const allowedUserIDs = ['1273604997275455559', '1252336627179716659']; // Add the User IDs here
+const allowedRoleIDs = ['1289545114712018966', '1289545114712018966']; // Add the Role IDs here
 
 var http = require('http'); // Fix: Added '=' and corrected 'require' syntax
 
