@@ -284,6 +284,84 @@ if (content.startsWith(`${PREFIX}saychannel`)) {
     }
 });
 
+// register slash commands
+const commands = [
+    { name: 'hello', description: 'Greet the bot!' },
+    { name: 'ping', description: 'Ping the bot!' },
+    { name: 'quote', description: 'Get a random quote.' },
+    { name: 'joke', description: 'Get a random joke.' },
+    { name: 'fact', description: 'Get a random fact.' },
+    {
+        name: 'search',
+        description: 'Search the web using DuckDuckGo.',
+        options: [
+            { name: 'query', type: 3, description: 'Search query', required: true }, // 3 is STRING type
+        ],
+    },
+    {
+        name: 'say',
+        description: 'The bot says your message.',
+        options: [
+            { name: 'message', type: 3, description: 'Message to say', required: true },
+        ],
+    },
+    {
+        name: 'sayembed',
+        description: 'Send an embedded message.',
+        options: [
+            { name: 'color', type: 3, description: 'Embed color (hex code)', required: true },
+            { name: 'title', type: 3, description: 'Embed title', required: true },
+            { name: 'description', type: 3, description: 'Embed description', required: true },
+        ],
+    },
+    {
+        name: 'saychannel',
+        description: 'Send a message to a specific channel.',
+        options: [
+            { name: 'channel', type: 7, description: 'Channel to send to', required: true }, // 7 is CHANNEL type
+            { name: 'message', type: 3, description: 'Message to send', required: true },
+        ],
+    },
+    {
+        name: 'sayembedchannel',
+        description: 'Send an embedded message to a specific channel.',
+        options: [
+            { name: 'channel', type: 7, description: 'Channel to send to', required: true },
+            { name: 'color', type: 3, description: 'Embed color (hex code)', required: true },
+            { name: 'title', type: 3, description: 'Embed title', required: true },
+            { name: 'description', type: 3, description: 'Embed description', required: true },
+        ],
+    },
+    { name: 'randomcat', description: 'Get a random cat image.' },
+    { name: 'coinflip', description: 'Flip a coin.' },
+    {
+        name: 'rps',
+        description: 'Play rock-paper-scissors with the bot.',
+        options: [
+            { name: 'choice', type: 3, description: 'Rock, paper, or scissors', required: true },
+        ],
+    },
+    { name: '8ball', description: 'Ask the magic 8 ball.' },
+    {
+        name: 'dm',
+        description: 'Send a DM to a user.',
+        options: [
+            { name: 'user', type: 6, description: 'User to DM', required: true }, // 6 is USER type
+            { name: 'message', type: 3, description: 'Message to send', required: true },
+        ],
+    },
+    {
+        name: 'dmembed',
+        description: 'Send an embedded DM.',
+        options: [
+            { name: 'user', type: 6, description: 'User to DM', required: true },
+            { name: 'color', type: 3, description: 'Embed color (hex code)', required: true },
+            { name: 'title', type: 3, description: 'Embed title', required: true },
+            { name: 'description', type: 3, description: 'Embed description', required: true },
+        ],
+    },
+];
+
 // Define commands
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
