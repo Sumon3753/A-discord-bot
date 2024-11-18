@@ -46,6 +46,78 @@ client.on('ready', () => {
 client.on('messageCreate', async (message) => {
     const content = message.content.trim().toLowerCase().replace(/\s+/g, ' '); // Normalizing input
 
+// colour
+  const { Client, GatewayIntentBits, Partials, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+
+// Create a new client
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+    partials: [Partials.Channel],
+});
+
+// Bot token
+const TOKEN = 'YOUR_BOT_TOKEN';
+
+client.once('ready', () => {
+    console.log(`Logged in as ${client.user.tag}`);
+});
+
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isButton()) return;
+
+    const roleName = interaction.customId;
+    const guild = interaction.guild;
+    const member = interaction.member;
+
+    if (roleName === 'remove') {
+        // Remove all color roles
+        const rolesToRemove = guild.roles.cache.filter((role) =>
+            ['Green', 'Red', 'Blue', 'Yellow', 'Purple', 'Pink', 'Orange', 'Cyan', 'Aqua', 'Magenta'].includes(role.name)
+        );
+        await member.roles.remove(rolesToRemove);
+        return interaction.reply({ content: 'All color roles removed!', ephemeral: true });
+    }
+
+    const role = guild.roles.cache.find((r) => r.name.toLowerCase() === roleName);
+    if (!role) return interaction.reply({ content: `The role ${roleName} does not exist.`, ephemeral: true });
+
+    await member.roles.add(role);
+    interaction.reply({ content: `You have been given the **${role.name}** role!`, ephemeral: true });
+});
+
+client.on('messageCreate', async (message) => {
+    if (message.content === '!setup-color-roles') {
+        const embed = new EmbedBuilder()
+            .setTitle('Color Roles')
+            .setDescription(
+                `Pick any color of your choice, and your name shall be displayed in the color of your choice:\n\n` +
+                `**Available Colors:**\n🟢 Green\n🔴 Red\n🔵 Blue\n🟡 Yellow\n🟣 Purple\n🌸 Pink\n🟠 Orange\n📘 Cyan\n🌊 Aqua\n🎨 Magenta\n❌ Remove Colors`
+            )
+            .setColor(0x00ff00);
+
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('green').setLabel('🟢 Green').setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('red').setLabel('🔴 Red').setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId('blue').setLabel('🔵 Blue').setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('yellow').setLabel('🟡 Yellow').setStyle(ButtonStyle.Success),
+            new ButtonBuilder().setCustomId('purple').setLabel('🟣 Purple').setStyle(ButtonStyle.Secondary)
+        );
+
+        const row2 = new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('pink').setLabel('🌸 Pink').setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('orange').setLabel('🟠 Orange').setStyle(ButtonStyle.Success),
+            new ButtonBuilder().setCustomId('cyan').setLabel('📘 Cyan').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('aqua').setLabel('🌊 Aqua').setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('magenta').setLabel('🎨 Magenta').setStyle(ButtonStyle.Success),
+            new ButtonBuilder().setCustomId('remove').setLabel('❌ Remove Colors').setStyle(ButtonStyle.Danger)
+        );
+
+        await message.channel.send({ embeds: [embed], components: [row, row2] });
+    }
+});
+
+
+  
     // Updated hello command
     if (content === `${PREFIX}hello` || content === `${PREFIX}helo`) {
         message.channel.send(`Hello ${message.author}! How can I assist you today?`);
